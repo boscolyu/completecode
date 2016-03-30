@@ -34,8 +34,8 @@ auto* CharInven = new CharacterInvenInfo();
 	* reference가 아닌 value로 복사해서 람다함수 내부에서 수정하면 에러 발생함.
 	* mutable 키워드를 사용해야함.
 	* value 복사이기 때문에 내부에서 수정을 해도 람다함수를 빠져나오면 예전값으로 돌아옴.
-```
 
+```
 int main() {
     auto func = [] (int n){std::cout << "Number : " << n << std::endl; };
     func();
@@ -53,7 +53,7 @@ int main() {
 }
 ```
 
-ex) c++ find_if 
+example) c++ find_if 
 
 ```
 auto Iter = find_if(User,begin(), User.end(),
