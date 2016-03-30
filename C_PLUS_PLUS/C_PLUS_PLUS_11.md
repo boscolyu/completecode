@@ -73,11 +73,67 @@ Iter = find_if (User.begin(), User.end(), FinDieUser());
 ## range based for
 * for each를 range based for로 바꾸어서 사용하면 됨
 
+```C++
+
+int main() 
+{
+	int NumberList[5] = {1, 2, 3, 4, 5};
+    
+    // normal for statement
+	for(int i = 0;i < 5;i++)
+    {
+    	std::cout << i << std::endl;	
+    }
+    
+    // vc++ for each statement
+    for each (int i in NumberList) 
+    {
+    	std::count << i << std::endl;
+    }
+    
+    // range base for statement
+    for(auto i : NumberList) 
+    {
+    	std::count << i << std::endl;
+    }
+}
+
+```
+* std container를 사용할 수 있음.
+* interator를 지원하는 컨테이너라면 사용가능함.
+* & 연산자로 값을 직접 수정할 수 있음.
+* const 를 사용하면 immutable 처리할 수 있음
+
+```C++
+
+int main() 
+{
+	std::vector<int> NumberList;
+    NumberList.push_back(1);
+    NumberList.push_back(2);
+    NumberList.push_back(3);
+    
+    // range base for statement with std vector
+    for(auto i : NumberList) 
+    {
+    	std::count << i << std::endl;
+    }
+    
+    std::unordered_map<int, std:;string> NumString;
+    NumString.insert(std::make_pair<int, std::string>(1, "1");
+    NumString.insert(std::make_pair<int, std::string>(2, "2");
+    NumString.insert(std::make_pair<int, std::string>(3, "3");
+    
+    // range base for statement with unordered map
+    for(auto i : NumString) 
+    {
+    	std::count << i.first << i.second << std::endl;
+    }
+    
+}
 
 
-
-
-
+```
 
 
 ```
