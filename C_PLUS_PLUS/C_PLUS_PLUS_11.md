@@ -17,7 +17,7 @@
 
 
 
-```
+```c++
 auto NPCname = "BugKing";
 auto Number = 1;
 auto* pUserMode = &UserMode;
@@ -35,7 +35,7 @@ auto* CharInven = new CharacterInvenInfo();
 	* mutable 키워드를 사용해야함.
 	* value 복사이기 때문에 내부에서 수정을 해도 람다함수를 빠져나오면 예전값으로 돌아옴.
 
-```
+```c++
 int main() {
     auto func = [] (int n){std::cout << "Number : " << n << std::endl; };
     func();
@@ -55,7 +55,7 @@ int main() {
 
 example) c++ find_if 
 
-```
+```c++
 auto Iter = find_if(User,begin(), User.end(),
                     [](User& tUser) -> bool {return true == uTuser.IsDie(); }
             );
