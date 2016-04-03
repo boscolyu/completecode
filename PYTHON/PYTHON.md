@@ -7,10 +7,11 @@ print "한글입력하면 실패한다."
 ```
 
 ```
-sys:1: DeprecationWarning: Non-ASCII character '\xed' in file ./testCodingCharacter.py on line 3, but no encoding declared; see http://www.python.org/peps/pep-0263.html for details
-한글입력하면 실패한다.
-```
+sys:1: DeprecationWarning: Non-ASCII character '\xed' in file ./testCodingCharacter.py on line 3, but no encoding declared; 
+see http://www.python.org/peps/pep-0263.html for details
 
+```
+한글입력하면 실패한다.
 이유는 python은 기본적으로 소스가 ascii로 작성되었음을 가정하고 컴파일을 수행한다. 그런데 한글이 들어가 있으니 인식을 못하는 거다.
 
 이를 해결하려면 다음과 같이 설정해주면된다.
@@ -64,9 +65,9 @@ print "한글입력하면 실패한다."
 print "한글입력하면 실패한다."
 ```
 
-단지 #!/usr/bin/python을 #!/usr/bin/env python으로만 바꾸었을 뿐인데..
+단지 /usr/bin/python을 /usr/bin/env python으로만 바꾸었을 뿐인데..
 하지만 또 아래와 같이 설정하면 잘 된다.
-#!/usr/bin/env python 과 cp949가 어떤 연관이 있는 지는 잘 모르겠지만..
+/usr/bin/env python 과 cp949가 어떤 연관이 있는 지는 잘 모르겠지만..
 어쨌든 내 시스템에서는 에러가 났다...ㅎㅎ
 
 ```python
