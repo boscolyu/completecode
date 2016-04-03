@@ -13,4 +13,4 @@
 
 # [Network](./NETWORK/NETWORK.md)
 
-* [Network](./NETWORK/TCP_VS_UDP.md)
+* [TCP vs UDP](./NETWORK/TCP_VS_UDP.md)
