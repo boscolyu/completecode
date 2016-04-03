@@ -1,4 +1,4 @@
-
+﻿
 # C++11
 
 * C++ 11(C++0x라고도 알려짐)은 [1] ISO가 2011년 8월 12일에 승인한 C++ 프로그래밍 언어의 최신판이다.
@@ -17,7 +17,7 @@
 
 
 
-```c++
+```C++
 auto NPCname = "BugKing";
 auto Number = 1;
 auto* pUserMode = &UserMode;
@@ -35,7 +35,7 @@ auto* CharInven = new CharacterInvenInfo();
 	* mutable 키워드를 사용해야함.
 	* value 복사이기 때문에 내부에서 수정을 해도 람다함수를 빠져나오면 예전값으로 돌아옴.
 
-```c++
+```C++
 int main() {
     auto func = [] (int n){std::cout << "Number : " << n << std::endl; };
     func();
@@ -55,7 +55,7 @@ int main() {
 
 example) c++ find_if 
 
-```c++
+```C++
 auto Iter = find_if(User,begin(), User.end(),
                     [](User& tUser) -> bool {return true == uTuser.IsDie(); }
             );
@@ -73,13 +73,69 @@ Iter = find_if (User.begin(), User.end(), FinDieUser());
 ## range based for
 * for each를 range based for로 바꾸어서 사용하면 됨
 
+```C++
+
+int main() 
+{
+	int NumberList[5] = {1, 2, 3, 4, 5};
+    
+    // normal for statement
+	for(int i = 0;i < 5;i++)
+    {
+    	std::cout << i << std::endl;	
+    }
+    
+    // vc++ for each statement
+    for each (int i in NumberList) 
+    {
+    	std::count << i << std::endl;
+    }
+    
+    // range base for statement
+    for(auto i : NumberList) 
+    {
+    	std::count << i << std::endl;
+    }
+}
+
+```
+* std container를 사용할 수 있음.
+* interator를 지원하는 컨테이너라면 사용가능함.
+* & 연산자로 값을 직접 수정할 수 있음.
+* const 를 사용하면 immutable 처리할 수 있음
+
+```C++
+
+int main() 
+{
+	std::vector<int> NumberList;
+    NumberList.push_back(1);
+    NumberList.push_back(2);
+    NumberList.push_back(3);
+    
+    // range base for statement with std vector
+    for(auto i : NumberList) 
+    {
+    	std::count << i << std::endl;
+    }
+    
+    std::unordered_map<int, std:;string> NumString;
+    NumString.insert(std::make_pair<int, std::string>(1, "1");
+    NumString.insert(std::make_pair<int, std::string>(2, "2");
+    NumString.insert(std::make_pair<int, std::string>(3, "3");
+    
+    // range base for statement with unordered map
+    for(auto i : NumString) 
+    {
+    	std::count << i.first << i.second << std::endl;
+    }
+    
+}
 
 
+```
 
 
-
-
-
-``` reference 
+```
 https://ko.wikipedia.org/wiki/C%2B%2B11
 ```
