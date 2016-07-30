@@ -1,25 +1,21 @@
 
 # Cassandra requirement
-* https://cassandra.apache.org/doc/latest/getting_started/installing.html#prerequisites
-    * java 1.8 require
-	* python 2.7 require
-			* Pytho v2.7.12 설치
-			* http://zetawiki.com/wiki/%EB%A6%AC%EB%88%85%EC%8A%A4_Python_2.7_%EC%BB%B4%ED%8C%8C%EC%9D%BC_%EC%84%A4%EC%B9%98
-			* python bug
-				* https://issues.apache.org/jira/browse/CASSANDRA-11850
-
-# cqlsh
-
-* bug
-    * error 
-```
-Connection error: ('Unable to connect to any servers', {'10.77.33.96': TypeError('ref() does not take keyword arguments',)})
-```
-    * cause : https://issues.apache.org/jira/browse/CASSANDRA-11850
-    * action
-```
-reinstall python 2.7.9 or 2.7.11
-```
+* prerequisites document : https://cassandra.apache.org/doc/latest/getting_started/installing.html#prerequisites
+* java 1.8 require
+* python 2.7 require
+	* Pytho v2.7.12 설치
+	* http://zetawiki.com/wiki/%EB%A6%AC%EB%88%85%EC%8A%A4_Python_2.7_%EC%BB%B4%ED%8C%8C%EC%9D%BC_%EC%84%A4%EC%B9%98
+	* python bug
+		* https://issues.apache.org/jira/browse/CASSANDRA-11850
+    * bug
+        * error 
+            ```
+            Connection error: ('Unable to connect to any servers', {'10.77.33.96': TypeError('ref() does not take keyword arguments',)})
+            ```
+        * cause : https://issues.apache.org/jira/browse/CASSANDRA-11850
+        * action
+            * reinstall python 2.7.9 or 2.7.11
+            * waiting patch version
 
 # information
 * cassandra도 netty를 사용하고 있다.
@@ -46,39 +42,22 @@ INFO  03:23:15 Using Netty Version: [netty-buffer=netty-buffer-4.0.36.Final.e8fa
 		* replication_factor
 
 # trouble shooting
-
+## cql version mismatch case
 * error
-```
-Connection error: ('Unable to connect to any servers', {'10.77.33.96': ProtocolError("cql_version '3.4.0' is not supported by remote (w/ native protocol). Supported versions: [u'3.4.2']",)})
-```
-command
-```
-[hite95@gplinux64 bin]$ ./cqlsh 10.77.33.96 9042 --cqlversion=3.4.2
-```
+    ```
+    Connection error: ('Unable to connect to any servers', {'10.77.33.96': ProtocolError("cql_version '3.4.0' is not supported by remote (w/ native protocol). Supported versions: [u'3.4.2']",)})
+    ```
+* command
+    ```
+    [hite95@gplinux64 bin]$ ./cqlsh 10.77.33.96 9042 --cqlversion=3.4.2
+    ```
+* cqlsh command
+    * https://docs.datastax.com/en/cql/3.1/cql/cql_reference/create_keyspace_r.html
 
-cqlsh command
-https://docs.datastax.com/en/cql/3.1/cql/cql_reference/create_keyspace_r.html
-
-mysql
-show databases;
-describe [DATABASE_NAME];
-
-cqlsh> DESCRIBE keyspaces;
-
-system_traces  system_schema  system_auth  system  system_distributed
-
-
-cqlsh> DESCRIBE system;
-
-CREATE KEYSPACE system WITH replication = {'class': 'LocalStrategy'}  AND durable_writes = true;
-
-CREATE TABLE system.available_ranges (
-    keyspace_name text PRIMARY KEY,
-    ranges set<blob>......
-
-
-
-java.lang.RuntimeException: Unable to gossip with any seeds
+## seed error log
+* error
+    ```
+    java.lang.RuntimeException: Unable to gossip with any seeds
     at org.apache.cassandra.gms.Gossiper.doShadowRound(Gossiper.java:1386) ~[apache-cassandra-3.7.jar:3.7]
     at org.apache.cassandra.service.StorageService.checkForEndpointCollision(StorageService.java:561) ~[apache-cassandra-3.7.jar:3.7]
     at org.apache.cassandra.service.StorageService.prepareToJoin(StorageService.java:855) ~[apache-cassandra-3.7.jar:3.7]
@@ -87,6 +66,38 @@ java.lang.RuntimeException: Unable to gossip with any seeds
     at org.apache.cassandra.service.CassandraDaemon.setup(CassandraDaemon.java:370) [apache-cassandra-3.7.jar:3.7]
     at org.apache.cassandra.service.CassandraDaemon.activate(CassandraDaemon.java:585) [apache-cassandra-3.7.jar:3.7]
     at org.apache.cassandra.service.CassandraDaemon.main(CassandraDaemon.java:714) [apache-cassandra-3.7.jar:3.7]
+    ```
+
+
+# Compare with MySQL
+* list key space, databases between MySQL and Cassandra
+    * MySQL
+        ```
+        show databases;
+        describe [DATABASE_NAME];
+        ```
+    * Cassandra
+        ```
+        cqlsh> DESCRIBE keyspaces;
+
+        system_traces  system_schema  system_auth  system  system_distributed
+        ``` 
+ * view the key space, databases between MySQL and Cassandra
+    * MySQL 
+        ```
+        DESCRIBE [Database Name]
+        ```
+    * Cassandra
+        ```
+        cqlsh> DESCRIBE system;
+
+        CREATE KEYSPACE system WITH replication = {'class': 'LocalStrategy'}  AND durable_writes = true;
+
+        CREATE TABLE system.available_ranges (
+            keyspace_name text PRIMARY KEY,
+            ranges set<blob>......
+        ```
+
 
 
 
