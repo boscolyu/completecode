@@ -59,7 +59,7 @@ Frequently Asked Questions (with answers!)
 
 
 # bosco's documentation
-* [Custom document](./custom_document/term.md)
+* [Term](./custom_document/term.md)
 
 
 
