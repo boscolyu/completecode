@@ -34,6 +34,24 @@ INFO  03:23:15 Using Netty Version: [netty-buffer=netty-buffer-4.0.36.Final.e8fa
    		* https://docs.datastax.com/en/cassandra/1.2/cassandra/security/security_config_native_authenticate_t.html
 * cqlversion
 * gossip : A peer-to-peer communication protocol to discover and share location and state information about the other nodes in a Cassandra cluster. Gossip information is also persisted locally by each node to use immediately when a node restarts.
+    * 3 handshake message exchange between 2 hosts;
+    * It is based on Accrual Failure Detection algorithm.
+```
+comment of org.apache.cassandra.gms.Gossiper class
+
+/**
+ * This module is responsible for Gossiping information for the local endpoint. This abstraction
+ * maintains the list of live and dead endpoints. Periodically i.e. every 1 second this module
+ * chooses a random node and initiates a round of Gossip with it. A round of Gossip involves 3
+ * rounds of messaging. For instance if node A wants to initiate a round of Gossip with node B
+ * it starts off by sending node B a GossipDigestSynMessage. Node B on receipt of this message
+ * sends node A a GossipDigestAckMessage. On receipt of this message node A sends node B a
+ * GossipDigestAck2Message which completes a round of Gossip. This module as and when it hears one
+ * of the three above mentioned messages updates the Failure Detector with the liveness information.
+ * Upon hearing a GossipShutdownMessage, this module will instantly mark the remote node as down in
+ * the Failure Detector.
+ */
+```    
 * seed 
 * Key Space
 * commit log : All data is written first to the commit log for durability. After all its data has been flushed to SSTables, it can be archived, deleted, or recycled.
@@ -46,9 +64,40 @@ INFO  03:23:15 Using Netty Version: [netty-buffer=netty-buffer-4.0.36.Final.e8fa
 * num tokens
 * virtual node
 * LocalStrategy
-* SimpleStrategy
-* NetworkTopologyStrategy
+* SimpleStrategy : 인접 노드에 데이터를 복제함.
+* NetworkTopologyStrategy : 네트워크 상에 배치된 구조를 고려하여 복사본 저장
 * replication_factor
+* bloomfilter
+* SSTable Compaction : merge sort 
+* snitch : 
+    * simple snitch :
+    * rack inferring snitch : 
+    * property file snitch :
+* partitioner :
+* consistency level :
+    * quorum : 
+* request delegation
+* Staged Event-Driven Architecture
+* AntiEntropy : https://wiki.apache.org/cassandra/AntiEntropy
+
+# Directory 
+
+## Bin
+nodetool
+cassandra
+cqlsh
+## conf
+cassandra.yaml
+## data
+commitlog
+data
+hints
+saved_cashes
+## lib
+## logs
+## pylib
+## tools
+
 
 # tuning memory allocation
 you can use the jemalloc library to speed up memory allocations
@@ -57,6 +106,16 @@ It is very useful for memory table.
 log not to add the configuration 
 ```
 WARN  02:36:42 jemalloc shared library could not be preloaded to speed up memory allocations
+```
+
+
+Cassandra v2.2.4 updates
+```
+Depreacation
+
+    - Configuration parameter memory_allocator in cassandra.yaml has been deprecated
+      and will be removed in 3.0.0. As mentioned below for 2.2.0, jemalloc is
+      automatically preloaded on Unix platforms.
 ```
 
 modification
@@ -171,6 +230,51 @@ CREATE TABLE leader_board.monkeyspecies (
         ```
 
 
+# Operation
 
 
+cassandra shutdown
 
+```
+[hite95@gplinux64 bin]$ nodetool stopdaemon
+Cassandra has shutdown.
+error: Connection refused
+-- StackTrace --
+java.net.ConnectException: Connection refused
+        at java.net.PlainSocketImpl.socketConnect(Native Method)
+        at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350)
+        at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)
+        at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)
+        at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+        at java.net.Socket.connect(Socket.java:589)
+        at java.net.Socket.connect(Socket.java:538)
+        at java.net.Socket.<init>(Socket.java:434)
+        at java.net.Socket.<init>(Socket.java:211)
+        at sun.rmi.transport.proxy.RMIDirectSocketFactory.createSocket(RMIDirectSocketFactory.java:40)
+        at sun.rmi.transport.proxy.RMIMasterSocketFactory.createSocket(RMIMasterSocketFactory.java:148)
+        at sun.rmi.transport.tcp.TCPEndpoint.newSocket(TCPEndpoint.java:613)
+        at sun.rmi.transport.tcp.TCPChannel.createConnection(TCPChannel.java:216)
+        at sun.rmi.transport.tcp.TCPChannel.newConnection(TCPChannel.java:202)
+        at sun.rmi.server.UnicastRef.invoke(UnicastRef.java:130)
+        at com.sun.jmx.remote.internal.PRef.invoke(Unknown Source)
+        at javax.management.remote.rmi.RMIConnectionImpl_Stub.close(Unknown Source)
+        at javax.management.remote.rmi.RMIConnector.close(RMIConnector.java:505)
+        at javax.management.remote.rmi.RMIConnector.close(RMIConnector.java:445)
+        at org.apache.cassandra.tools.NodeProbe.close(NodeProbe.java:236)
+        at org.apache.cassandra.tools.NodeTool$NodeToolCmd.run(NodeTool.java:251)
+        at org.apache.cassandra.tools.NodeTool.main(NodeTool.java:162)
+
+
+```
+
+
+# tuning guide
+
+https://tobert.github.io/pages/als-cassandra-21-tuning-guide.html
+
+```
+memtable_allocation_type: offheap_objects
+
+Offheap memtables can improve write-heavy workloads by reducing the amount of data stored on the Java heap. 1-2GB of offheap memory should be sufficient for most workloads. The memtable size whould be left at 25% of the heap as well, since it is still in use when offheap is in play.
+An additional performance boost can be realized by installing and enabling jemalloc. On common distros this is usually a yum/apt-get install away. Worst case you can simply install the .so file in /usr/local/lib or similar. Instructions for configuring it are in cassandra-env.sh.
+```
