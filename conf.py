@@ -56,6 +56,8 @@ if globals().get('source_suffix', False):
 else:
     SUFFIX = '.rst'
 
+print SUFFIX
+
 # Add RTD Static Path. Add to the end because it overwrites previous files.
 if not 'html_static_path' in globals():
     html_static_path = []
