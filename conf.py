@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+# custom conf.py for readthedocs
+
 from recommonmark.parser import CommonMarkParser
 
 extensions = []
