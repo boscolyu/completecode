@@ -56,7 +56,7 @@ if globals().get('source_suffix', False):
     else:
         SUFFIX = source_suffix[0]
 else:
-    SUFFIX = '.rst'
+    SUFFIX = '.md'
 
 print SUFFIX
 
