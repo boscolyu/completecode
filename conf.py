@@ -6,7 +6,7 @@ from recommonmark.parser import CommonMarkParser
 
 extensions = []
 templates_path = ['/home/docs/checkouts/readthedocs.org/readthedocs/templates/sphinx', 'templates', '_templates', '.templates']
-source_suffix = ['.rst', '.md']		
+source_suffix = ['.md']		
 source_parsers = {		
             '.md': CommonMarkParser,		
         }
