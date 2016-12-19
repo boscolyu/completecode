@@ -8,7 +8,6 @@
 * [Java8](./JAVA/JAVA8/JAVA_8.md)
 
 # Python
-
 * [python에서 소스에 한글이 들어가면?](./PYTHON/PYTHON_KOREAN_READ.md)
 
 # Linux
@@ -20,4 +19,4 @@
 
 # [Storage](./STORAGE/STORAGE.md)
 
-* [Cassandra Term](./STORAGES/CASSANDRA/term.md)
+* [Cassandra Term](./STORAGES/CASSANDRA/custom_document/term.md)
