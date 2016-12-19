@@ -11,8 +11,11 @@
 
 * [Python](./PYTHON/PYTHON.md)
 
+# Linux
+* [Linux](./LINUX/LINUX.md)
+
 # [Network](./NETWORK/NETWORK.md)
 
 * [TCP vs UDP](./NETWORK/TCP_VS_UDP.md)
 
-# Test
+# [Storage](./STORAGE/STORAGE.md)
