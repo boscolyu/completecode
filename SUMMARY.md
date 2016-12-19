@@ -1,7 +1,7 @@
 
 # C, C++
 
-* [C++](./C_PLUS_PLUS/C_PLUS_PLUS.md)
+* [C++11](./C_PLUS_PLUS/C_PLUS_PLUS_11.md)
 
 # Java
 
@@ -9,7 +9,7 @@
 
 # Python
 
-* [Python](./PYTHON/PYTHON.md)
+* [python에서 소스에 한글이 들어가면?](./PYTHON/PYTHON_KOREAN_READ.md)
 
 # Linux
 * [Linux](./LINUX/LINUX.md)
@@ -19,3 +19,5 @@
 * [TCP vs UDP](./NETWORK/TCP_VS_UDP.md)
 
 # [Storage](./STORAGE/STORAGE.md)
+
+* [Cassandra Term](./STORAGES/CASSANDRA/term.md)
