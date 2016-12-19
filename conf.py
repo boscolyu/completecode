@@ -6,6 +6,7 @@ from recommonmark.parser import CommonMarkParser
 
 extensions = []
 templates_path = ['/home/docs/checkouts/readthedocs.org/readthedocs/templates/sphinx', 'templates', '_templates', '.templates']
+
 source_suffix = ['.md']		
 source_parsers = {		
             '.md': CommonMarkParser,		
@@ -59,6 +60,7 @@ else:
     SUFFIX = '.md'
 
 print SUFFIX
+
 
 # Add RTD Static Path. Add to the end because it overwrites previous files.
 if not 'html_static_path' in globals():
